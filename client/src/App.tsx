@@ -1,10 +1,11 @@
-import {useEffect, useState} from "react";
+import React, { useEffect, useState, useRef } from 'react';
 import './App.css';
 import Home_Page from "./pages/Home_Page";
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Top_Songs_Page from "./pages/Top_Songs_Page";
 import WaveComponent from "./components/WaveComponent";
 import NavComponent from "./components/NavComponent";
+import CursorComponent from "./components/CursorComponent";
 
 function App() {
     const CLIENT_ID = "bcf7d300a78f47d79ce343e582ee60f6"
@@ -35,6 +36,17 @@ function App() {
         window.localStorage.removeItem("token")
     }
 
+    const headerRef = useRef(null);
+    const loginRef = useRef(null);
+    const cover = document.querySelector<HTMLDivElement>('.cover')!;
+
+    const handleLoginClick = () => {
+        setTimeout(() => {
+            window.location.href = `${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}&scope=${encodeURIComponent(SCOPE)}`;
+            cover.style.display = 'block';
+        }, 1000);
+    };
+
     return (
         token ? (
             <Router>
@@ -47,11 +59,20 @@ function App() {
             <>
                 <NavComponent />
 
+                <CursorComponent headerRef={headerRef} loginRef={loginRef} />
+
                 <div className="App flex flex-col justify-center items-center min-h-screen grey-background">
-                    <header className="App-header"></header>
-                    <h1 className='title text-6xl font-bold mb-4'>Playlist Polyglot</h1>
-                    <a className='text-2xl underline' href={`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}&scope=${encodeURIComponent(SCOPE)}`}>
-                        <button className="btn btn-primary btn-outline font-bold py-2 px-4 rounded mt-2">Login to Spotify</button>
+                    <h1 ref={headerRef} className='title text-5xl md:text-8xl font-bold mb-4 text-wrap'>
+                        Playlist Polyglot
+                    </h1>
+                    <a className='text-2xl underline'>
+                        <button 
+                            ref={loginRef} 
+                            className="cursor-none btn btn-primary btn-lg btn-outline font-bold py-2 px-4 rounded mt-2"
+                            onClick={handleLoginClick}
+                        >
+                        Login to Spotify
+                    </button>
                     </a>
                 </div>
 

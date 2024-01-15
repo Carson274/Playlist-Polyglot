@@ -4,8 +4,29 @@
 
 .title {
     color: #1DB954;
+    text-shadow: 0 0 5px #1DB954, 0 0 0.01px #1DB954;
 }
 
 .grey-background {
     background-color: #131313;
+}
+
+* {
+    cursor: none;
+}
+
+.cursor {
+    background-color: #1DB954;
+    height: 32px;
+    width: 32px;
+    border-radius: 50%;
+    z-index: 1001;
+}
+
+.cover {
+    background-color: #1DB954;
+    width: 100%;
+    height: 100vh;
+    z-index: 999999;
+    display: none;
 }

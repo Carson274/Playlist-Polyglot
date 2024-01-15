@@ -52,9 +52,9 @@ const SpotifyGetPlaylists = ({ token }) => {
     return (
         <div className="flex flex-col">
             {playlists.map((playlist) => (
-                <div key={playlist.id} className="flex items-center my-2">
+                <div key={playlist.id} className="flex my-2">
                     <img src={playlist.image} alt={playlist.name} className="w-12 mr-2 rounded" />
-                    <button className="btn btn-accent flex-grow" onClick={() => handlePlaylistClick(playlist.id)}>
+                    <button className="btn btn-outline btn-secondary flex-grow" onClick={() => handlePlaylistClick(playlist.id)}>
                         {playlist.name}
                     </button>
                 </div>
