@@ -38,7 +38,7 @@ const Home_Page = ({ token, logout }) => {
                             <div className="card w-1/4 bg-neutral shadow-xl transform transition duration-500 ease-in-out hover:scale-110">
                                 <figure><img className="p-8" src={img2} alt="Shoes" /></figure>
                                 <div className="card-body">
-                                    <h2 className="card-title">Select a Language</h2>
+                                    <h2 className="card-title">Select a Song</h2>
                                 </div>
                             </div>
                             <div className="card w-1/4 bg-neutral shadow-xl transform transition duration-500 ease-in-out hover:scale-110">
