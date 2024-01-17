@@ -92,7 +92,7 @@ const CursorComponent = ({ headerRef, loginRef }) => {
         default: {
             height: 8,
             width: 8,
-            backgroundColor: "1DB954",
+            backgroundColor: "#1DB954",
             mixBlendMode: "normal",
             left: `${mousePosition.x - 4}px`, 
             top: `${mousePosition.y - 4}px`

@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import SongComponent from "./SongComponent";
+import getLyrics from "../lib/getLyrics.js";
+import getSong from "../lib/getSong.js";
+import FormData from 'form-data';
+import {franc, francAll} from 'franc';
 
 const PLAYLIST_ENDPOINT = "https://api.spotify.com/v1/me/playlists";
 
 const SpotifyGetPlaylists = ({ token }) => {
     const [playlists, setPlaylists] = useState([]);
-    const [tracks, setTracks] = useState([]);
+    // const [tracks, setTracks] = useState([]);
     const [selectedPlaylistId, setSelectedPlaylistId] = useState(null);
     const [selectedTrackId, setSelectedTrackId] = useState(null);
 
@@ -48,6 +52,65 @@ const SpotifyGetPlaylists = ({ token }) => {
     useEffect(() => {
         handleGetPlaylists();
     }, []);
+
+    const handlePlaylistClick = async (playlistId) => {
+        let trackArtistsMap = new Map();
+
+        axios
+            .get(`https://api.spotify.com/v1/playlists/${playlistId}/tracks`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                }
+            })
+            .then((response) => {
+                const tracks = response.data.items;
+                console.log(tracks);
+                for (let track of tracks) {
+                    console.log(track);
+                    axios
+                        .get(`https://api.spotify.com/v1/tracks/${track.track.id}`, {
+                            headers: {
+                                'Authorization': `Bearer ${token}`,
+                            }
+                        })
+                        .then((response) => {
+                            let trackDetails = response.data;
+                
+                            let trackName = trackDetails.name;
+                            let artistName = trackDetails.artists[0].name;
+                            console.log("HELLO!")
+                
+                            trackArtistsMap.set(trackName, artistName);
+                            for (let [trackName, artistName] of trackArtistsMap) {
+                                const options = {
+                                    apiKey: 'wzTVvJ9dWy8iYMzWlpzGgd7VUjI4rpeGOaY5sjsIsvih7TPes-k_oMjLENA14V5Y',
+                                    title: trackName,
+                                    artist: artistName,
+                                    optimizeQuery: true
+                                }
+                            
+                                getSong(options).then((song) => {
+                                    console.log(song);
+                                    let lyrics_string = song.lyrics ? `${song.lyrics}` : '';
+                                    console.log(franc(lyrics_string));
+                                });
+                            }
+                        })
+                        .catch((error) => {
+                            console.log(error);
+                        });
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+                
+        
+                
+        
+
+
+    };
 
     return (
         <div className="flex flex-col">

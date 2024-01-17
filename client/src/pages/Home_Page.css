@@ -15,3 +15,30 @@
     color: #1DB954;
     text-shadow: 0 0 5px #1DB954, 0 0 0.01px #1DB954;
 }
+
+.card {
+    height: 360px;
+    max-height: 60px;
+}
+
+@media screen and (min-width: 768px) {
+    .card {
+        max-height: 200px;
+    }
+    .card-title {
+        font-size: 0.75rem;
+
+    }
+}
+
+@media screen and (min-width: 1224px) {
+    .card {
+        max-height: 240px;
+    }
+}
+
+@media screen and (min-width: 1480px) {
+    .card {
+        max-height: 360px;
+    }
+}

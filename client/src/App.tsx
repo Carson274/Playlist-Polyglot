@@ -62,13 +62,13 @@ function App() {
                 <CursorComponent headerRef={headerRef} loginRef={loginRef} />
 
                 <div className="App flex flex-col justify-center items-center min-h-screen grey-background">
-                    <h1 ref={headerRef} className='title text-5xl md:text-8xl font-bold mb-4 text-wrap'>
+                    <h1 ref={headerRef} className='title text-5xl md:text-6xl lg:text-8xl font-bold mb-4 text-wrap'>
                         Playlist Polyglot
                     </h1>
                     <a className='text-2xl underline'>
                         <button 
                             ref={loginRef} 
-                            className="cursor-none btn btn-primary btn-lg btn-outline font-bold py-2 px-4 rounded mt-2"
+                            className="cursor-none btn btn-primary btn-sm md:btn-md lg:btn-lg btn-outline font-bold py-2 px-4 rounded mt-2"
                             onClick={handleLoginClick}
                         >
                         Login to Spotify
