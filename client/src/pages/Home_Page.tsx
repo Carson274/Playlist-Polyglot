@@ -1,14 +1,31 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import SpotifyGetPlaylists from "../components/SpotifyGetPlaylists";
 import NavComponent from '../components/NavComponent';
 import './Home_Page.css'
 import CursorComponent from '../components/CursorComponent';
+import WaveComponent from '../components/WaveComponent';
 import img1 from "../assets/img1.svg";
 import img2 from "../assets/img2.svg";
 import img3 from "../assets/img3.svg";
 import img4 from "../assets/img4.svg";
 import img5 from "../assets/img5.svg";
+
+const Cover = () => {
+    const coverRef = useRef(null);
+
+    useEffect(() => {
+        const cover = coverRef.current;
+        if (cover) {
+            cover.style.animation = 'slide-down 3s cubic-bezier(0.5, 0, 0, 1) forwards';
+            setTimeout(() => {
+                cover.style.display = 'none';
+            }, 2000);
+        }
+    }, []);
+
+    return <div className="cover" ref={coverRef}></div>;
+};
 
 const Home_Page = ({ token, logout }) => {
     const headerRef = useRef(null);
@@ -16,7 +33,7 @@ const Home_Page = ({ token, logout }) => {
 
     return (
         <>  
-            <CursorComponent headerRef={headerRef} loginRef={loginRef} />
+            <Cover />
             <NavComponent token={token} logout={logout}/>
             <div className="App flex flex-col grey-background text-neutral min-h-screen">
             <div className="nav-buffer"></div>

@@ -48,37 +48,41 @@ function App() {
     };
 
     return (
-        token ? (
-            <Router>
-                <Routes>
-                    <Route path="/" element={<Home_Page token={token} logout={logout} />} />
-                    <Route path="/top-songs" element={<Top_Songs_Page token={token} logout={logout} />} />
-                </Routes>
-            </Router>
-        ) : (
-            <>
-                <NavComponent />
+        <>
+            {token ? (
+                <>
+                    <CursorComponent headerRef={headerRef} loginRef={loginRef} />
+                    <Router>
+                        <Routes>
+                            <Route path="/" element={<Home_Page token={token} logout={logout} />} />
+                            <Route path="/top-songs" element={<Top_Songs_Page token={token} logout={logout} />} />
+                        </Routes>
+                    </Router>
+                </>
+            ) : (
+                <>
+                    <NavComponent />
 
-                <CursorComponent headerRef={headerRef} loginRef={loginRef} />
+                    <div className="App flex flex-col justify-center items-center min-h-screen grey-background">
+                        <h1 ref={headerRef} className='title text-5xl md:text-6xl lg:text-8xl font-bold mb-4 text-wrap'>
+                            Playlist Polyglot
+                        </h1>
+                        <a className='text-2xl underline'>
+                            <button 
+                                ref={loginRef} 
+                                className="cursor-none btn btn-primary btn-sm md:btn-md lg:btn-lg btn-outline font-bold py-2 px-4 rounded mt-2"
+                                onClick={handleLoginClick}
+                            >
+                            Login to Spotify
+                        </button>
+                        </a>
+                    </div>
+                    <CursorComponent headerRef={headerRef} loginRef={loginRef} />
 
-                <div className="App flex flex-col justify-center items-center min-h-screen grey-background">
-                    <h1 ref={headerRef} className='title text-5xl md:text-6xl lg:text-8xl font-bold mb-4 text-wrap'>
-                        Playlist Polyglot
-                    </h1>
-                    <a className='text-2xl underline'>
-                        <button 
-                            ref={loginRef} 
-                            className="cursor-none btn btn-primary btn-sm md:btn-md lg:btn-lg btn-outline font-bold py-2 px-4 rounded mt-2"
-                            onClick={handleLoginClick}
-                        >
-                        Login to Spotify
-                    </button>
-                    </a>
-                </div>
-
-                <WaveComponent />
-            </>
-        )
+                    <WaveComponent />
+                </>
+            )}
+        </>
     );
 }
 

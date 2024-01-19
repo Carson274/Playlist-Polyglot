@@ -20,7 +20,7 @@ const NavComponent = ({ token, logout }) => {
                 <a href="https://github.com/Carson274/Playlist-Polyglot" target="_blank" rel="noopener noreferrer">
                     <img className="w-6 h-6 md:w-9 md:h-9 lg:w-12 lg:h-12 mx-4 transform transition duration-500 ease-in-out hover:scale-150" src={github_logo} alt="GitHub" />
                 </a>
-                {token && <button onClick={logout} className="btn m-2 p-2 btn-outline btn-primary btn-xs md:btn-sm lg:btn-md mx-4">Sign Out</button>}
+                {token && <button onClick={logout} className="cursor-none btn m-2 p-2 btn-outline btn-primary btn-xs md:btn-sm lg:btn-md mx-4">Sign Out</button>}
             </div>
         </nav>
     )

@@ -42,3 +42,21 @@
         max-height: 360px;
     }
 }
+
+.cover {
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    z-index: 10000;
+    background-color: #1DB954;
+    display: block;
+}
+
+@keyframes slide-down {
+    0% { 
+        transform: translateY(0); 
+    }
+    100% { 
+        transform: translateY(120vh); 
+    }
+}

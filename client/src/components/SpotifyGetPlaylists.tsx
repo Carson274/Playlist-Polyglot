@@ -45,6 +45,9 @@ const SpotifyGetPlaylists = ({ token }) => {
             });
     };
 
+    const [top10Words, setTop10Words] = useState([]);
+
+
     async function findMostCommonWords(lyrics_string) {
         // traverses the string and returns an array of all of the words without the spaces or extra characters
         const words_array = lyrics_string.toLowerCase().split(/\s+/).filter(word => word.length > 0)
@@ -79,10 +82,10 @@ const SpotifyGetPlaylists = ({ token }) => {
         let sorted_words = Array.from(words.entries())
             .sort((a, b) => b[1] - a[1])
         
-        let top_10_words = [];
+        let newTop10Words = [];
 
         let j = 0;
-        for (let i = 0; i < sorted_words.length && top_10_words.length < 10; i++) {
+        for (let i = 0; i < sorted_words.length && newTop10Words.length < 10; i++) {
             let word = sorted_words[i][0];
             let count = sorted_words[i][1];
 
@@ -91,17 +94,18 @@ const SpotifyGetPlaylists = ({ token }) => {
             console.log(`Language of '${word}' is: ${word_language}`);
     
             if (word_language != 'en') {
-                top_10_words.push([word, count]);
+                newTop10Words.push([word, count]);
 
                 // translate to english
                 let translation = await translateText(word, 'en');
                 
                 // change the count to the translated word
-                top_10_words[j][1] = translation[0];
+                newTop10Words[j][1] = translation[0];
                 j++;
             }
         }
-        console.log(top_10_words);
+        console.log(newTop10Words);
+        setTop10Words(newTop10Words);
         
 
     };
@@ -225,18 +229,34 @@ const SpotifyGetPlaylists = ({ token }) => {
     return (
         <div className="flex flex-col">
         {tracks.length > 0 ? (
-            tracks.map((trackItem) => (
-                <div key={trackItem.track.id} className="flex my-2">
-                    <img src={trackItem.image} alt={trackItem.track.name} className="w-12 mr-2 rounded" />
-                    <button className="btn btn-outline btn-secondary flex-grow" onClick={() => handleTrackClick(trackItem.track.id)}>{trackItem.track.name}</button>
-                    {selectedTrackId === trackItem.track.id}
-                </div>
-            ))
+            <>
+                {top10Words.length > 0 ? (
+                    top10Words.map((word, index) => (
+                        <div key={index} className="flex my-2 flex-col items-center">
+                            <div className="flex-grow mb-2">
+                                <button className="cursor-none btn btn-lg btn-outline btn-secondary flex-grow">{word[0]}</button>
+                            </div>
+                            <button className="cursor-none btn btn-md btn-outline btn-secondary flex-grow">{word[1]}</button>
+                            <br />
+                        </div>
+                    ))
+                ) : (
+                    <div className="flex my-2">
+                        <button className="cursor-none btn btn-outline btn-secondary flex-grow">Loading top words...</button>
+                    </div>
+                )}
+                {tracks.map((trackItem) => (
+                    <div key={trackItem.track.id} className="flex my-2">
+                        <img src={trackItem.image} alt={trackItem.track.name} className="w-12 mr-2 rounded" />
+                        <button className="cursor-none btn btn-outline btn-secondary flex-grow" onClick={() => handleTrackClick(trackItem.track.id)}>{trackItem.track.name}</button>
+                    </div>
+                ))}
+            </>
         ) : (
             playlists.map((playlist) => (
                 <div key={playlist.id} className="flex my-2">
                     <img src={playlist.image} alt={playlist.name} className="w-12 mr-2 rounded" />
-                    <button className="btn btn-outline btn-secondary flex-grow" onClick={() => handlePlaylistClick(playlist.id)}>
+                    <button className="cursor-none btn btn-outline btn-secondary flex-grow" onClick={() => handlePlaylistClick(playlist.id)}>
                         {playlist.name}
                     </button>
                 </div>
