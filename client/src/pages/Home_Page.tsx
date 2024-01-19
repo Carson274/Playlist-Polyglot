@@ -5,6 +5,8 @@ import NavComponent from '../components/NavComponent';
 import './Home_Page.css'
 import CursorComponent from '../components/CursorComponent';
 import WaveComponent from '../components/WaveComponent';
+import CardComponent from '../components/CardComponent';
+import PlaylistHeader from '../components/PlaylistHeader';
 import img1 from "../assets/img1.svg";
 import img2 from "../assets/img2.svg";
 import img3 from "../assets/img3.svg";
@@ -46,43 +48,18 @@ const Home_Page = ({ token, logout }) => {
                     <div className="instructions md:pl-10 lg:pl-20 md:pr-10 lg:pr-10">
                         <h1 className="text-3xl mb-8">Want to sing your favorite songs from other languages? With Playlist Polyglot, you can!</h1>
                         <div className="cards-div flex flex-auto text-black space-x-4 lg:space-x-8">
-                            <div className="card w-1/4 bg-neutral shadow-xl transform transition duration-500 ease-in-out hover:scale-110">
-                                <figure><img className="p-12" src={img4} alt="Shoes" /></figure>
-                                <div className="card-body">
-                                    <h2 className="card-title">Select a Playlist</h2>
-                                </div>
-                            </div>
-                            <div className="card w-1/4 bg-neutral shadow-xl transform transition duration-500 ease-in-out hover:scale-110">
-                                <figure><img className="p-8" src={img2} alt="Shoes" /></figure>
-                                <div className="card-body">
-                                    <h2 className="card-title">Select a Song</h2>
-                                </div>
-                            </div>
-                            <div className="card w-1/4 bg-neutral shadow-xl transform transition duration-500 ease-in-out hover:scale-110">
-                                <figure><img className="p-8" src={img1} alt="Shoes" /></figure>
-                                <div className="card-body">
-                                    <h2 className="card-title">Let Us Do the Work</h2>
-                                </div>
-                            </div>
-                            <div className="card w-1/4 bg-neutral shadow-xl transform transition duration-500 ease-in-out hover:scale-110">
-                                <figure><img className="p-12" src={img3} alt="Shoes" /></figure>
-                                <div className="card-body">
-                                    <h2 className="card-title">Enjoy Learning!</h2>
-                                </div>
-                            </div>
+                            <CardComponent title="Select a Playlist" imageSrc={img4} imageAlt="Select a Playlist" />
+                            <CardComponent title="Select a Song" imageSrc={img2} imageAlt="Select a Song" />
+                            <CardComponent title="Let Us Do the Work" imageSrc={img1} imageAlt="Let Us Do the Work" />
+                            <CardComponent title="Enjoy Learning!" imageSrc={img3} imageAlt="Enjoy Learning!" />
                         </div>
                     </div>
                 </div>
-                <div className="playlists w-full md:w-1/3 p-5 md:p-10 flex flex-col items-center">
-                <div className="playlist-header">
-                    <h2 className="title text-2xl">Your Playlists</h2>
-                </div>
-                <div className="playlist-instructions mb-4">
-                    <p className="italic hover:not-italic">Select a playlist to dive in!</p>
-                </div>
-                <div className="md:w-2/3 flex text-left justify-center overflow-auto max-h-full">
-                    <SpotifyGetPlaylists token={token} />
-                </div>
+                <div className="playlists w-full md:w-1/3 p-5 md:p-10 flex flex-col items-center text-center">
+                    <PlaylistHeader />
+                    <div className="md:w-2/3 flex text-left justify-center overflow-auto max-h-full">
+                        <SpotifyGetPlaylists token={token} />
+                    </div>
                 </div>
             </div>
             </div>
@@ -91,7 +68,3 @@ const Home_Page = ({ token, logout }) => {
 };
 
 export default Home_Page;
-
-/* <Link to="/top-songs">
-    <button className="btn m-2 p-2">Go to Top Songs Page</button>
-</Link> */

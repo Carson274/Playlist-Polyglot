@@ -129,6 +129,4 @@ const CursorComponent = ({ headerRef, loginRef }) => {
     );
 };
 
-
-
 export default CursorComponent;

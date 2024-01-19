@@ -8,7 +8,7 @@ import NavComponent from "./components/NavComponent";
 import CursorComponent from "./components/CursorComponent";
 
 function App() {
-    const CLIENT_ID = "bcf7d300a78f47d79ce343e582ee60f6"
+    const CLIENT_ID = "b534b0059ab24f429f81a542522741d6"
     const REDIRECT_URI = "http://localhost:5173"
     const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize"
     const RESPONSE_TYPE = "token"
