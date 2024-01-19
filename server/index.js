@@ -15,9 +15,6 @@ app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*');
     next();
 });
-// app.use((req) => {
-//     console.log(req);
-// });
 
 // get the lyrics of a song
 app.get('/lyrics', async (req, res) => {
@@ -64,6 +61,34 @@ app.post('/translate-text', async (req, res) => {
     } catch (error) {
         res.status(500).send(error.message);
     }
+});
+
+// get playlists from spotify
+app.get('/spotify-playlists', (req, res) => {
+    const token = req.headers.authorization;
+
+    if (!token) {
+        return res.status(401).send('Authorization token is required');
+    }
+
+    axios.get("https://api.spotify.com/v1/me/playlists", {
+        headers: { Authorization: token },
+    })
+    .then(response => {
+        const fetchedPlaylists = response.data.items;
+        const promises = fetchedPlaylists.map(playlist => {
+            return axios.get(`https://api.spotify.com/v1/playlists/${playlist.id}/images`, {
+                headers: { Authorization: token },
+            })
+            .then(imageResponse => ({ ...playlist, image: imageResponse.data[0]?.url }));
+        });
+        return Promise.all(promises);
+    })
+    .then(playlistsWithImages => res.json(playlistsWithImages))
+    .catch(error => {
+        console.error('Error fetching playlists:', error);
+        res.status(500).send('Error fetching playlists');
+    });
 });
 
 app.listen(PORT, () => {
