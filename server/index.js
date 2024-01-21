@@ -91,6 +91,28 @@ app.get('/spotify-playlists', (req, res) => {
     });
 });
 
+// get tracks from a specific Spotify playlist
+app.get('/spotify-playlist-tracks/:playlistId', (req, res) => {
+    const token = req.headers.authorization;
+    const playlistId = req.params.playlistId;
+
+    if (!token) {
+        return res.status(401).send('Authorization token is required');
+    }
+
+    axios.get(`https://api.spotify.com/v1/playlists/${playlistId}/tracks`, {
+        headers: { Authorization: token }
+    })
+    .then(response => {
+        res.json(response.data);
+    })
+    .catch(error => {
+        console.error('Error fetching tracks:', error);
+        res.status(500).send('Error fetching tracks');
+    });
+});
+
+
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });

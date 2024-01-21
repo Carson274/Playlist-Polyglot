@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import SpotifyGetPlaylists from "../components/SpotifyGetPlaylists";
 import NavComponent from '../components/NavComponent';
@@ -32,6 +32,15 @@ const Cover = () => {
 const Home_Page = ({ token, logout }) => {
     const headerRef = useRef(null);
     const loginRef = useRef(null);
+    const [currentView, setCurrentView] = useState('playlists');
+
+    const handleBackToTracks = () => {
+        setCurrentView('tracks');
+    };
+
+    const handleBackToPlaylists = () => {
+        setCurrentView('playlists');
+    };
 
     return (
         <>  
@@ -58,8 +67,18 @@ const Home_Page = ({ token, logout }) => {
                 <div className="playlists w-full md:w-1/3 p-5 md:p-10 flex flex-col items-center text-center">
                     <PlaylistHeader />
                     <div className="md:w-2/3 flex text-left justify-center overflow-auto max-h-full">
-                        <SpotifyGetPlaylists token={token} />
+                        <SpotifyGetPlaylists
+                            token={token}
+                            currentView={currentView}
+                            setCurrentView={setCurrentView}
+                        />
                     </div>
+                    {currentView === 'tracks' && (
+                        <button className="btn btn-primary cursor-none btn-outline" onClick={handleBackToPlaylists}>Back to Playlists</button>
+                    )}
+                    {currentView === 'topWords' && (
+                        <button className="btn btn-primary cursor-none btn-outline" onClick={handleBackToTracks}>Back to Tracks</button>
+                    )}
                 </div>
             </div>
             </div>

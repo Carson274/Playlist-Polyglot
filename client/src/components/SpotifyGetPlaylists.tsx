@@ -9,13 +9,15 @@ import Playlist from './Playlist';
 
 const PLAYLIST_ENDPOINT = "https://api.spotify.com/v1/me/playlists";
 
-const SpotifyGetPlaylists = ({ token }) => {
+const SpotifyGetPlaylists = ({ token, currentView, setCurrentView }) => {
     const [playlists, setPlaylists] = useState([]);
     const [selectedPlaylistId, setSelectedPlaylistId] = useState(null);
     const [selectedTrackId, setSelectedTrackId] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
+
 
     const handleGetPlaylists = () => {
-        axios.get('http://localhost:3000/spotify-playlists', {
+        axios.get('https://playlist-polyglot.onrender.com/spotify-playlists', {
             headers: {
                 'Authorization': `Bearer ${token}`
             }
@@ -30,20 +32,19 @@ const SpotifyGetPlaylists = ({ token }) => {
 
     const [top10Words, setTop10Words] = useState([]);
 
-
     async function findMostCommonWords(lyrics_string) {
         // traverses the string and returns an array of all of the words without the spaces or extra characters
         const words_array = lyrics_string.toLowerCase().split(/\s+/).filter(word => word.length > 0)
         const words = new Map();
 
         async function detectLanguage(text) {
-            const response = await axios.post('http://localhost:3000/detect-language', { text });
+            const response = await axios.post('https://playlist-polyglot.onrender.com/detect-language', { text });
             return response.data.language;
         }
 
         async function translateText(text, targetLanguage) {
             try {
-                const response = await axios.post('http://localhost:3000/translate-text', { text, target: targetLanguage });
+                const response = await axios.post('https://playlist-polyglot.onrender.com/translate-text', { text, target: targetLanguage });
                 return response.data.translations;
             } catch (error) {
                 console.error('Translation error:', error);
@@ -84,14 +85,15 @@ const SpotifyGetPlaylists = ({ token }) => {
                 j++;
             }
         }
+        setIsLoading(false);
         console.log(newTop10Words);
         setTop10Words(newTop10Words);
-        
-
     };
 
     const handleTrackClick = (trackId) => {
         setSelectedTrackId(trackId);
+        setTracks([]);
+        setIsLoading(true);
 
         axios
             .get(`https://api.spotify.com/v1/tracks/${trackId}`, {
@@ -122,6 +124,8 @@ const SpotifyGetPlaylists = ({ token }) => {
             .catch((error) => {
                 console.log(error);
             });
+        
+        setCurrentView('topWords');
     };
 
     useEffect(() => {
@@ -131,48 +135,54 @@ const SpotifyGetPlaylists = ({ token }) => {
     const [tracks, setTracks] = useState([]);
 
     const handlePlaylistClick = async (playlistId) => {
-    let trackArtistsMap = new Map();
+        // set loading while axios gets the playlists
+        setIsLoading(true);
+        axios
+            .get(`https://api.spotify.com/v1/playlists/${playlistId}/tracks`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                }
+            })
+            .then((response) => {
+                // set the fetched tracks to the state
+                setTracks(response.data.items.map(item => {
+                    return {
+                        ...item,
+                        image: item.track.album.images[0]?.url // get the URL of the first image
+                    };
+                }));
+                setIsLoading(false);
+            })
+            .catch((error) => {
+                console.log(error);
+                setIsLoading(false);
+            });
 
-    axios
-        .get(`https://api.spotify.com/v1/playlists/${playlistId}/tracks`, {
-            headers: {
-                'Authorization': `Bearer ${token}`,
-            }
-        })
-        .then((response) => {
-            // set the fetched tracks to the state
-            setTracks(response.data.items.map(item => {
-                return {
-                    ...item,
-                    image: item.track.album.images[0]?.url // Get the URL of the first image
-                };
-            }));
-        })
-        .catch((error) => {
-            console.log(error);
-        });
+        setCurrentView('tracks');
+    };
+
+    const handleBackToTracks = () => {
+        setCurrentView('tracks');
+    };
+
+    const handleBackToPlaylists = () => {
+        setCurrentView('playlists');
     };
 
     return (
         <div className="flex flex-col">
-            {tracks.length > 0 ? (
-                <>
-                    {top10Words.length > 0 ? (
-                        <TopWords words={top10Words} />
-                    ) : (
-                        <div className="flex my-2">
-                            <button className="cursor-none btn btn-outline btn-secondary flex-grow">Loading top words...</button>
-                        </div>
-                    )}
-                    {tracks.map(trackItem => (
-                        <Track key={trackItem.track.id} track={trackItem} onTrackClick={handleTrackClick} />
-                    ))}
-                </>
-            ) : (
-                playlists.map(playlist => (
-                    <Playlist key={playlist.id} playlist={playlist} onPlaylistClick={handlePlaylistClick} />
-                ))
+            {isLoading && (
+                <div className="flex justify-center items-center h-full w-full">
+                    <span className="loading loading-ring loading-lg text-primary"></span>
+                </div>
             )}
+            {!isLoading && currentView === 'playlists' && playlists.map(playlist => (
+                <Playlist key={playlist.id} playlist={playlist} onPlaylistClick={handlePlaylistClick} />
+            ))}
+            {!isLoading && currentView === 'tracks' && tracks.map(trackItem => (
+                <Track key={trackItem.track.id} track={trackItem} onTrackClick={handleTrackClick} />
+            ))}
+            {!isLoading && currentView === 'topWords' && <TopWords words={top10Words} />}
         </div>
     );
 };
