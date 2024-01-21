@@ -9,7 +9,7 @@ import CursorComponent from "./components/CursorComponent";
 
 function App() {
     const CLIENT_ID = "b534b0059ab24f429f81a542522741d6"
-    const REDIRECT_URI = "http://localhost:5173"
+    const REDIRECT_URI = "https://playlistpolyglot.onrender.com"
     const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize"
     const RESPONSE_TYPE = "token"
     const SCOPE = "user-top-read"
