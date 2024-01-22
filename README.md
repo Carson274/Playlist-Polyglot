@@ -19,7 +19,7 @@ This tool is perfect for language learners, music enthusiasts, and anyone lookin
   - [DaisyUI](https://daisyui.com/) for implementing beautiful UI components with ease.
   - Built with [Vite](https://vitejs.dev/) for fast and efficient frontend tooling.
 - **Backend**: 
-  - Employs [Express.js] for server-side operations, including handling requests and responses.
+  - Employs [Express.js](https://expressjs.com/) for server-side operations, including handling requests and responses.
 - **API Integration**: 
   - Utilizes [Spotify’s Web API](https://developer.spotify.com/documentation/web-api/) for playlist management.
   - [Google Translate API](https://cloud.google.com/translate) for real-time language detection and translation.
