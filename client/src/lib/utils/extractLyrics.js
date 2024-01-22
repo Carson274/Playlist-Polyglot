@@ -30,7 +30,7 @@ function extractLyrics(html) {
  */
 export default async function (url) {
     try {
-        const proxyUrl = `http://localhost:3000/lyrics?url=${encodeURIComponent(url)}`;
+        const proxyUrl = `https://playlist-polyglot.onrender.com/lyrics?url=${encodeURIComponent(url)}`;
         let { data } = await axios.get(proxyUrl);
         return extractLyrics(data);
     } catch (e) {
