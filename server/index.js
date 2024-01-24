@@ -91,6 +91,11 @@ app.get('/spotify-playlists', (req, res) => {
     });
 });
 
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'index.html'));
+});
+
+
 // get tracks from a specific Spotify playlist
 app.get('/spotify-playlist-tracks/:playlistId', (req, res) => {
     const token = req.headers.authorization;
