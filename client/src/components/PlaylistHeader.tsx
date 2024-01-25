@@ -1,14 +1,27 @@
-const PlaylistHeader = () => {
+const PlaylistHeader = ({ currentView }) => {
+    let title = "Your Playlists";
+    let instruction = "Select a playlist to dive in!";
+    
+    if (currentView === 'tracks') {
+        title = "Your Tracks";
+        instruction = "Select a track!";
+    }
+
+    if (currentView === 'topWords') {
+        title = "Your Top Words";
+        instruction = "Select a word to learn more!";
+    }
+
     return (
         <div>
             <div className="playlist-header">
                 <h2 className="title text-2xl">
-                    {"Your Playlists"}
+                    {title}
                 </h2>
             </div>
             <div className="playlist-instructions mb-4">
                 <p className="italic hover:not-italic">
-                    {"Select a playlist to dive in!"}
+                    {instruction}
                 </p>
             </div>
         </div>
