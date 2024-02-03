@@ -9,7 +9,7 @@ const PlaylistHeader = ({ currentView }) => {
 
     if (currentView === 'topWords') {
         title = "Your Top Words";
-        instruction = "Select a word to learn more!";
+        instruction = "Here they are!";
     }
 
     return (

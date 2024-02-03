@@ -17,7 +17,7 @@ const SpotifyGetPlaylists = ({ token, currentView, setCurrentView }) => {
 
 
     const handleGetPlaylists = () => {
-        axios.get('https://playlist-polyglot.onrender.com/spotify-playlists', {
+        axios.get('https://https://playlist-polyglot.onrender.com/spotify-playlists', {
             headers: {
                 'Authorization': `Bearer ${token}`
             }
@@ -38,19 +38,22 @@ const SpotifyGetPlaylists = ({ token, currentView, setCurrentView }) => {
         const words = new Map();
 
         async function detectLanguage(text) {
-            const response = await axios.post('https://playlist-polyglot.onrender.com/detect-language', { text });
+            const response = await axios.post('https://https://playlist-polyglot.onrender.com/detect-language', { text });
             return response.data.language;
         }
 
         async function translateText(text, targetLanguage) {
             try {
-                const response = await axios.post('https://playlist-polyglot.onrender.com/translate-text', { text, target: targetLanguage });
+                const response = await axios.post('https://https://playlist-polyglot.onrender.com/translate-text', { text, target: targetLanguage });
                 return response.data.translations;
             } catch (error) {
                 console.error('Translation error:', error);
                 return null;
             }
         }
+
+        let lyrics_language = await detectLanguage(lyrics_string);
+        console.log(lyrics_language);
 
         for (let word of words_array) {
             if (words.has(word)) {
@@ -74,15 +77,28 @@ const SpotifyGetPlaylists = ({ token, currentView, setCurrentView }) => {
     
             console.log(`Language of '${word}' is: ${word_language}`);
     
-            if (word_language != 'en') {
-                newTop10Words.push([word, count]);
+            if(lyrics_language != 'en') {
+                if (word_language == lyrics_language) {
+                    newTop10Words.push([word, count]);
+    
+                    // translate to english
+                    let translation = await translateText(word, 'en');
+                    
+                    // change the count to the translated word
+                    newTop10Words[j][1] = translation[0];
+                    j++;
+                }
+            } else {
+                if (word_language != 'en') {
+                    newTop10Words.push([word, count]);
 
-                // translate to english
-                let translation = await translateText(word, 'en');
-                
-                // change the count to the translated word
-                newTop10Words[j][1] = translation[0];
-                j++;
+                    // translate to english
+                    let translation = await translateText(word, 'en');
+                    
+                    // change the count to the translated word
+                    newTop10Words[j][1] = translation[0];
+                    j++;
+                }
             }
         }
         setIsLoading(false);
