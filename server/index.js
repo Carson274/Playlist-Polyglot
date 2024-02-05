@@ -120,7 +120,7 @@ app.get('/spotify-playlist-tracks/:playlistId', (req, res) => {
 // get the tracks from a specific Spotify playlist
 app.get('/spotify-playlist-tracks/:playlistId', async (req, res) => {
     const { playlistId } = req.params;
-    const token = req.headers.authorization; // Assuming the token is passed as an Authorization header
+    const token = req.headers.authorization;
 
     if (!token) {
         return res.status(401).send('Authorization token is required');

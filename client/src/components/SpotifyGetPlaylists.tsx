@@ -153,7 +153,7 @@ const SpotifyGetPlaylists = ({ token, currentView, setCurrentView }) => {
         // set loading while axios gets the playlists
         setIsLoading(true);
         axios
-            .get(`https://playlist-polyglot.onrender.com/playlists/${playlistId}/tracks`, {
+            .get(`https://playlist-polyglot.onrender.com/spotify-playlist-tracks/${playlistId}`, {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                 }
