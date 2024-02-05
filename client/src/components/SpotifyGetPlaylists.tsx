@@ -17,7 +17,7 @@ const SpotifyGetPlaylists = ({ token, currentView, setCurrentView }) => {
 
 
     const handleGetPlaylists = () => {
-        axios.get('https://https://playlist-polyglot.onrender.com/spotify-playlists', {
+        axios.get('https://playlist-polyglot.onrender.com/spotify-playlists', {
             headers: {
                 'Authorization': `Bearer ${token}`
             }
@@ -38,13 +38,13 @@ const SpotifyGetPlaylists = ({ token, currentView, setCurrentView }) => {
         const words = new Map();
 
         async function detectLanguage(text) {
-            const response = await axios.post('https://https://playlist-polyglot.onrender.com/detect-language', { text });
+            const response = await axios.post('https://playlist-polyglot.onrender.com/detect-language', { text });
             return response.data.language;
         }
 
         async function translateText(text, targetLanguage) {
             try {
-                const response = await axios.post('https://https://playlist-polyglot.onrender.com/translate-text', { text, target: targetLanguage });
+                const response = await axios.post('https://playlist-polyglot.onrender.com/translate-text', { text, target: targetLanguage });
                 return response.data.translations;
             } catch (error) {
                 console.error('Translation error:', error);
@@ -112,14 +112,13 @@ const SpotifyGetPlaylists = ({ token, currentView, setCurrentView }) => {
         setIsLoading(true);
 
         axios
-            .get(`https://api.spotify.com/v1/tracks/${trackId}`, {
+            .get(`https://playlist-polyglot.onrender.com/spotify-track/${trackId}`, {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                 }
             })
             .then((response) => {
                 let trackDetails = response.data;
-    
                 let trackName = trackDetails.name;
                 let artistName = trackDetails.artists[0].name;
                 console.log("HELLO!")
@@ -154,7 +153,7 @@ const SpotifyGetPlaylists = ({ token, currentView, setCurrentView }) => {
         // set loading while axios gets the playlists
         setIsLoading(true);
         axios
-            .get(`https://api.spotify.com/v1/playlists/${playlistId}/tracks`, {
+            .get(`https://playlist-polyglot.onrender.com/playlists/${playlistId}/tracks`, {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                 }

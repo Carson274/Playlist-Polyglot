@@ -117,6 +117,49 @@ app.get('/spotify-playlist-tracks/:playlistId', (req, res) => {
     });
 });
 
+// get the tracks from a specific Spotify playlist
+app.get('/spotify-playlist-tracks/:playlistId', async (req, res) => {
+    const { playlistId } = req.params;
+    const token = req.headers.authorization; // Assuming the token is passed as an Authorization header
+
+    if (!token) {
+        return res.status(401).send('Authorization token is required');
+    }
+
+    const spotifyURL = `https://api.spotify.com/v1/playlists/${playlistId}/tracks`;
+
+    try {
+        const response = await axios.get(spotifyURL, {
+            headers: { 'Authorization': token }
+        });
+        res.json(response.data);
+    } catch (error) {
+        console.error('Error fetching Spotify playlist tracks:', error);
+        res.status(error.response ? error.response.status : 500).send('Error fetching Spotify playlist tracks');
+    }
+});
+
+// get the track details from Spotify
+app.get('/spotify-track/:trackId', async (req, res) => {
+    const { trackId } = req.params;
+    const token = req.headers.authorization;
+
+    if (!token) {
+        return res.status(401).send('Authorization token is required');
+    }
+
+    const spotifyURL = `https://api.spotify.com/v1/tracks/${trackId}`;
+
+    try {
+        const response = await axios.get(spotifyURL, {
+            headers: { 'Authorization': token }
+        });
+        res.json(response.data);
+    } catch (error) {
+        console.error('Error fetching Spotify track details:', error);
+        res.status(error.response ? error.response.status : 500).send('Error fetching Spotify track details');
+    }
+});
 
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
