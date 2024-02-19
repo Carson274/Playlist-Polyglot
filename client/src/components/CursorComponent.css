@@ -7,3 +7,8 @@
     left: 0;
     pointer-events: none;
 }
+
+.custom-card-title {
+    position: absolute;
+    bottom: 30px;
+}

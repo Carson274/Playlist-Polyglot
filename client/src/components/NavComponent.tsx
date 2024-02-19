@@ -9,7 +9,7 @@ import daisyui_logo  from "../assets/daisyui.png";
 
 const NavComponent = ({ token, logout }) => {
     return (
-        <nav className="nav-bar fixed top-0 grey-background text-white z-10 flex flex-row justify-between p-10">
+        <nav className="nav-bar top-0 grey-background text-white z-10 flex flex-row justify-between p-10 w-full">
             <div className="icons flex flex-row">
                 <img className="w-6 h-6 md:w-9 md:h-9 lg:w-12 lg:h-12 m-2" src={react_icon} alt="React" />
                 <img className="w-6 h-6 md:w-9 md:h-9 lg:w-12 lg:h-12 m-2" src={tailwind_icon} alt="TailwindCSS" />

@@ -63,7 +63,7 @@ function App() {
                 <>
                     <NavComponent />
 
-                    <div className="App flex flex-col justify-center items-center min-h-screen grey-background">
+                    <div className="App flex flex-col justify-center items-center min-h-screen grey-background -mt-36">
                         <h1 ref={headerRef} className='title text-5xl md:text-6xl lg:text-8xl font-bold mb-4 text-wrap'>
                             Playlist Polyglot
                         </h1>
